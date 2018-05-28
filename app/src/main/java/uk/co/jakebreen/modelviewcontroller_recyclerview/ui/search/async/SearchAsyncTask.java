@@ -34,7 +34,7 @@ public class SearchAsyncTask extends AsyncTask<Cocktail, Void, Cocktail> {
         try {
             Response<Cocktails> response = call.execute();
             this.cocktails = response.body();
-            this.cocktail = this.cocktails.getCocktails().get(0);
+            this.cocktail = this.cocktails.getCocktail().get(0);
 
             Log.i(TAG, "Success: " + response.body().toString());
         } catch (IOException e) {

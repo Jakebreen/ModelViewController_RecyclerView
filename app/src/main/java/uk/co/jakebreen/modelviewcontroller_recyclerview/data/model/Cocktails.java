@@ -14,14 +14,14 @@ public class Cocktails implements Serializable {
 
     @SerializedName("drinks")
     @Expose
-    private List<Cocktail> cocktails;
+    private List<Cocktail> cocktail;
 
-    public List<Cocktail> getCocktails() {
-        return cocktails;
+    public List<Cocktail> getCocktail() {
+        return cocktail;
     }
 
-    public void setCocktails(List<Cocktail> cocktails) {
-        this.cocktails = cocktails;
+    public void setCocktail(List<Cocktail> cocktails) {
+        this.cocktail = cocktails;
     }
 
 }

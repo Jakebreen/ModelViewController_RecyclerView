@@ -97,7 +97,7 @@ public class SearchViewImpl implements SearchView {
                     recyclerView.addOnItemTouchListener(new RecyclerTouchListener(mRootView.getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
                         @Override
                         public void onClick(View view, int position) {
-                            Cocktail cocktail = cocktails.getCocktails().get(position);
+                            Cocktail cocktail = cocktails.getCocktail().get(position);
                             mListener.onSearch(cocktail.getIdDrink());
                         }
 

@@ -26,7 +26,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     private List<Cocktail> cocktails;
 
     public SearchAdapter(Cocktails cocktails) {
-        this.cocktails = cocktails.getCocktails();
+        this.cocktails = cocktails.getCocktail();
     }
 
     public class SearchViewHolder extends RecyclerView.ViewHolder {

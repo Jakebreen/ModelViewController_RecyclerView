@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ModelViewControllerRecyclerView.iml" filepath="$PROJECT_DIR$/ModelViewControllerRecyclerView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ModelViewController_RecyclerView.iml" filepath="$PROJECT_DIR$/ModelViewController_RecyclerView.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

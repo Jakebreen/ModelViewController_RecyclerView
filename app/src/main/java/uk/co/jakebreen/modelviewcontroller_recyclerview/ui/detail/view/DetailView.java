@@ -1,5 +1,7 @@
 package uk.co.jakebreen.modelviewcontroller_recyclerview.ui.detail.view;
 
+import java.util.ArrayList;
+
 import uk.co.jakebreen.modelviewcontroller_recyclerview.data.model.Cocktail;
 import uk.co.jakebreen.modelviewcontroller_recyclerview.ui.common.view.RootView;
 
@@ -9,6 +11,6 @@ import uk.co.jakebreen.modelviewcontroller_recyclerview.ui.common.view.RootView;
 
 public interface DetailView extends RootView {
 
-    void setupInterface(Cocktail cocktail);
+    void setupInterface(Cocktail cocktail, ArrayList<String> ingredients, ArrayList<String> measurements);
 
 }
