@@ -23,18 +23,17 @@ public class DetailViewImpl implements DetailView {
 
     private View mRootView;
     private ImageView ivCocktail;
-    private TextView tvTitle, tvGlass, tvIngredient1, tvMeasure1, tvInstructions, tvAlcohol;
+    private TextView tvTitle, tvAlcoholGlass, tvIngredient1, tvMeasure1, tvInstructions, tvAlcohol;
     private ArrayList<String> ingredientArray, measureArray;
 
     public DetailViewImpl(LayoutInflater inflater, ViewGroup container) {
         mRootView = inflater.inflate(R.layout.fragment_detail, container, false);
         ivCocktail = mRootView.findViewById(R.id.iv_cocktail);
         tvTitle = mRootView.findViewById(R.id.tv_title);
-        tvGlass = mRootView.findViewById(R.id.tv_glass);
+        tvAlcoholGlass = mRootView.findViewById(R.id.tv_alcoholGlass);
         tvIngredient1 = mRootView.findViewById(R.id.tv_ingredient1);
         tvMeasure1 = mRootView.findViewById(R.id.tv_measure1);
         tvInstructions = mRootView.findViewById(R.id.tv_instructions);
-        tvAlcohol = mRootView.findViewById(R.id.tv_alcohol);
 
         //Hide unused textviews
         tvIngredient1.setVisibility(View.GONE);
@@ -57,9 +56,8 @@ public class DetailViewImpl implements DetailView {
     public void setupInterface(Cocktail cocktail, ArrayList<String> ingredients, ArrayList<String> measurements) {
         Picasso.get().load(cocktail.getStrDrinkThumb()).into(ivCocktail);
         tvTitle.setText(cocktail.getStrDrink());
-        tvGlass.setText("Best served in, " + cocktail.getStrGlass());
+        tvAlcoholGlass.setText(cocktail.getStrAlcoholic() + " drink best served in a " + cocktail.getStrGlass());
         tvInstructions.setText(cocktail.getStrInstructions());
-        tvAlcohol.setText(cocktail.getStrAlcoholic());
 
         this.ingredientArray = ingredients;
         this.measureArray = measurements;
