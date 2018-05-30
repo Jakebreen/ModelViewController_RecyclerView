@@ -2,7 +2,6 @@ package uk.co.jakebreen.modelviewcontroller_recyclerview.ui.detail.controller;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,18 +42,22 @@ public class DetailFragment extends BaseFragment {
         return mView.getRootView();
     }
 
+    //Create arraylist from ingredient variables
     public ArrayList<String> getIngredientArray() {
 
         ArrayList<String> ingredientArray = new ArrayList<>();
         String fields = "";
         int i;
 
+        //Loop through cocktail methods adding response to array
         for(i=1; i<=15; i++) {
 
             Method m = null;
             try {
                 m = cocktail.getClass().getMethod("getStrIngredient" + String.valueOf(i), new Class[]{});
                 fields = (String) m.invoke(cocktail);
+                //Remove whitespace from response
+                fields = fields.trim();
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -74,18 +77,22 @@ public class DetailFragment extends BaseFragment {
         return ingredientArray;
     }
 
+    //Create arraylist from measure variables
     public ArrayList<String> getMeasureArray() {
 
         ArrayList<String> measureArray = new ArrayList<>();
         String fields = null;
         int i;
 
+        //Loop through cocktail methods adding response to array
         for(i=1; i<=15; i++) {
 
             Method m = null;
             try {
                 m = cocktail.getClass().getMethod("getStrMeasure" + String.valueOf(i), new Class[]{});
                 fields = (String) m.invoke(cocktail);
+                //Remove whitespace from response
+                fields = fields.trim();
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -100,7 +107,7 @@ public class DetailFragment extends BaseFragment {
                 break;
             }
         }
-        Log.e(TAG, "measure array: " + measureArray);
+        //Log.e(TAG, "measure array: " + measureArray);
 
         return measureArray;
     }

@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import uk.co.jakebreen.modelviewcontroller_recyclerview.R;
@@ -25,7 +23,7 @@ public class DetailViewImpl implements DetailView {
 
     private View mRootView;
     private ImageView ivCocktail;
-    private TextView tvTitle, tvGlass, tvIngredient1, tvMeasure1, tvInstructions;
+    private TextView tvTitle, tvGlass, tvIngredient1, tvMeasure1, tvInstructions, tvAlcohol;
     private ArrayList<String> ingredientArray, measureArray;
 
     public DetailViewImpl(LayoutInflater inflater, ViewGroup container) {
@@ -36,6 +34,11 @@ public class DetailViewImpl implements DetailView {
         tvIngredient1 = mRootView.findViewById(R.id.tv_ingredient1);
         tvMeasure1 = mRootView.findViewById(R.id.tv_measure1);
         tvInstructions = mRootView.findViewById(R.id.tv_instructions);
+        tvAlcohol = mRootView.findViewById(R.id.tv_alcohol);
+
+        //Hide unused textviews
+        tvIngredient1.setVisibility(View.GONE);
+        tvMeasure1.setVisibility(View.GONE);
 
     }
 
@@ -49,37 +52,38 @@ public class DetailViewImpl implements DetailView {
         return null;
     }
 
+    //Method to populate interface
     @Override
     public void setupInterface(Cocktail cocktail, ArrayList<String> ingredients, ArrayList<String> measurements) {
         Picasso.get().load(cocktail.getStrDrinkThumb()).into(ivCocktail);
         tvTitle.setText(cocktail.getStrDrink());
-        tvGlass.setText(cocktail.getStrGlass());
+        tvGlass.setText("Best served in, " + cocktail.getStrGlass());
+        tvInstructions.setText(cocktail.getStrInstructions());
+        tvAlcohol.setText(cocktail.getStrAlcoholic());
 
-        tvIngredient1.setText(String.valueOf(ingredients));
-        tvMeasure1.setText(String.valueOf(measurements));
+        this.ingredientArray = ingredients;
+        this.measureArray = measurements;
 
-        //LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(
-        //        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        //TextView tv=new TextView(this);
-        //tv.setLayoutParams(lparams);
-        //tv.setText("test");
-        //this.m_vwJokeLayout.addView(tv);
+        //Create new textview for each ingredient in array
+        LinearLayout llIngredient = (LinearLayout) mRootView.findViewById(R.id.ll_ingredient);
+        for (String ingredient : ingredientArray) {
+            tvIngredient1 = new TextView(mRootView.getContext());
+            tvIngredient1.setText(ingredient); // <-- does it really compile without the + sign?
+            tvIngredient1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            tvIngredient1.setTextAppearance(mRootView.getContext(), R.style.TextAppearance_AppCompat_Medium);
+            llIngredient.addView(tvIngredient1);
 
-        //for (int count = 1; count < 4; count++) {
-//
-        //    String methodName = "getName";
-        //}
-//
-        //LinearLayout llIngredient = (LinearLayout) mRootView.findViewById(R.id.ll_ingredient);
-        //for (int i = 0; i < 2; i++) {
-        //    int count = 2;
-        //    String rec = "getIngredient" + count;
-        //    tvIngredient1 = new TextView(mRootView.getContext());
-        //    tvIngredient1.setText(rec); // <-- does it really compile without the + sign?
-        //    tvIngredient1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        //    llIngredient.addView(tvIngredient1);
-        //    tvInstructions.setText(cocktail.getStrInstructions());
-        //    count ++;
-        //}
+        }
+
+        //Create new textview for each measure in array
+        LinearLayout llMeasurement = (LinearLayout) mRootView.findViewById(R.id.ll_measurement);
+        for (String measure : measureArray) {
+            tvMeasure1 = new TextView(mRootView.getContext());
+            tvMeasure1.setText(measure); // <-- does it really compile without the + sign?
+            tvMeasure1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            tvMeasure1.setTextAppearance(mRootView.getContext(), R.style.TextAppearance_AppCompat_Medium);
+            llMeasurement.addView(tvMeasure1);
+
+        }
     }
 }
