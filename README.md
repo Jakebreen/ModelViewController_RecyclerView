@@ -8,5 +8,6 @@ An experimental project implementing the Model View Controller pattern with Frag
 * MVC.
 * Recycler View.
 * Card View.
+* Fragments.
 * Retrofit2.
 
