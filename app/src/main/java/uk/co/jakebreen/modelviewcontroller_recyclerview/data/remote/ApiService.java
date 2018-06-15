@@ -11,12 +11,11 @@ import uk.co.jakebreen.modelviewcontroller_recyclerview.data.model.Cocktails;
 
 public interface ApiService {
 
-    //@GET("filter.php?c=Cocktail")
-    //Call<List<Cocktail>> getCocktails();
-
+    // Returns list of all cocktails
     @GET("filter.php?c=Cocktail")
     Call<Cocktails> getCocktailList();
 
+    // Query API and return specific cocktail by ID
     @GET("lookup.php")
     Call<Cocktails> getCocktail(@Query("i") String idDrink);
 

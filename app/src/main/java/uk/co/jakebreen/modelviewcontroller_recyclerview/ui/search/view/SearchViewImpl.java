@@ -34,7 +34,9 @@ public class SearchViewImpl implements SearchView {
     private View mRootView;
     private SearchViewListener mListener;
     private RecyclerView recyclerView;
+    private GridLayoutManager mGridLayoutManager;
     private SearchAdapter searchAdapter;
+    private Cocktails mCocktails;
 
     public SearchViewImpl(LayoutInflater inflater, ViewGroup container) {
         mRootView = inflater.inflate(R.layout.fragment_search, container, false);
@@ -57,55 +59,17 @@ public class SearchViewImpl implements SearchView {
     }
 
     @Override
-    public void getCocktails() {
-        //Retrofit call to API, returns list of cocktails
+    public void getCocktails(final Parcelable p) {
+        // Retrofit call to API, returns list of cocktails
         mApiService.getCocktailList().enqueue(new Callback<Cocktails>() {
             @Override
             public void onResponse(Call<Cocktails> call, Response<Cocktails> response) {
                 if(response.isSuccessful()) {
                     showResponse(response.body().toString());
-                    final Cocktails cocktails = response.body();
-
-                    searchAdapter = new SearchAdapter(cocktails);
-                    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mRootView.getContext());
-                    recyclerView.setLayoutManager(mLayoutManager);
-                    recyclerView.setItemAnimator(new DefaultItemAnimator());
-                    recyclerView.setAdapter(searchAdapter);
-
-                    GridLayoutManager mGridLayoutManager = new GridLayoutManager(mRootView.getContext(), 2);
-                    recyclerView.setLayoutManager(mGridLayoutManager);
-
-                    OrientationEventListener mOrientationListener = new OrientationEventListener(
-                            mRootView.getContext()) {
-                        @Override
-                        public void onOrientationChanged(int orientation) {
-                            if (orientation == 0) {
-                                GridLayoutManager mGridLayoutManager = new GridLayoutManager(mRootView.getContext(), 2);
-                                recyclerView.setLayoutManager(mGridLayoutManager);
-                            } else {
-                                GridLayoutManager mGridLayoutManager = new GridLayoutManager(mRootView.getContext(), 4);
-                                recyclerView.setLayoutManager(mGridLayoutManager);
-
-                            }
-                        }
-                    };
-
-                    if (mOrientationListener.canDetectOrientation()) {
-                        mOrientationListener.enable();
-                    }
-
-                    recyclerView.addOnItemTouchListener(new RecyclerTouchListener(mRootView.getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
-                        @Override
-                        public void onClick(View view, int position) {
-                            Cocktail cocktail = cocktails.getCocktail().get(position);
-                            mListener.onSearch(cocktail.getIdDrink());
-                        }
-
-                        @Override
-                        public void onLongClick(View view, int position) {
-
-                        }
-                    }));
+                    mCocktails = response.body();
+                    populateRecyclerView(mCocktails);
+                    if (p != null)
+                        setScrollPosition(p);
                 }
             }
 
@@ -121,16 +85,58 @@ public class SearchViewImpl implements SearchView {
     }
 
     @Override
-    public Parcelable getScrollPosition() {
-        //Parcelable recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
-        return null;
+    public void populateRecyclerView(final Cocktails cocktails) {
+        // Setup recyclerview adapter
+        searchAdapter = new SearchAdapter(cocktails);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mRootView.getContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(searchAdapter);
+
+        // Handle orientation change, increasing grid-size to 4 in landscape and vice versa
+        OrientationEventListener mOrientationListener = new OrientationEventListener(
+                mRootView.getContext()) {
+            @Override
+            public void onOrientationChanged(int orientation) {
+                if (orientation == 0) {
+                    mGridLayoutManager = new GridLayoutManager(mRootView.getContext(), 2);
+                    recyclerView.setLayoutManager(mGridLayoutManager);
+                } else {
+                    mGridLayoutManager = new GridLayoutManager(mRootView.getContext(), 4);
+                    recyclerView.setLayoutManager(mGridLayoutManager);
+                }
+            }
+        };
+
+        if (mOrientationListener.canDetectOrientation()) {
+            mOrientationListener.enable();
+        }
+
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(mRootView.getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                // Select cocktail and begin fragment change
+                Cocktail cocktail = cocktails.getCocktail().get(position);
+                mListener.onSearch(cocktail.getIdDrink());
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
     }
 
     @Override
-    public void setScrollPosition(Bundle bundle) {
-        //Parcelable savedRecyclerLayoutState = bundle.getParcelable(BUNDLE_RECYCLER_LAYOUT);
-        //Log.e(TAG, "Parcelable: " + savedRecyclerLayoutState);
-        //recyclerView.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
+    public Parcelable getScrollPosition() {
+        // Return position of recyclerview
+        Parcelable recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
+        return recyclerViewState;
+    }
+
+    @Override
+    public void setScrollPosition(Parcelable parcelable) {
+        // TODO
     }
 
     @Override

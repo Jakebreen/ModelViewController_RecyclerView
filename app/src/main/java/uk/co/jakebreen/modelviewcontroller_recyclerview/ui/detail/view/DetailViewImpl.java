@@ -35,7 +35,7 @@ public class DetailViewImpl implements DetailView {
         tvMeasure1 = mRootView.findViewById(R.id.tv_measure1);
         tvInstructions = mRootView.findViewById(R.id.tv_instructions);
 
-        //Hide unused textviews
+        // Hide unused textviews
         tvIngredient1.setVisibility(View.GONE);
         tvMeasure1.setVisibility(View.GONE);
 
@@ -51,7 +51,7 @@ public class DetailViewImpl implements DetailView {
         return null;
     }
 
-    //Method to populate interface
+    // Method to populate interface
     @Override
     public void setupInterface(Cocktail cocktail, ArrayList<String> ingredients, ArrayList<String> measurements) {
         Picasso.get().load(cocktail.getStrDrinkThumb()).into(ivCocktail);
@@ -62,22 +62,22 @@ public class DetailViewImpl implements DetailView {
         this.ingredientArray = ingredients;
         this.measureArray = measurements;
 
-        //Create new textview for each ingredient in array
+        // Create new textview for each ingredient in array
         LinearLayout llIngredient = (LinearLayout) mRootView.findViewById(R.id.ll_ingredient);
         for (String ingredient : ingredientArray) {
             tvIngredient1 = new TextView(mRootView.getContext());
-            tvIngredient1.setText(ingredient); // <-- does it really compile without the + sign?
+            tvIngredient1.setText(ingredient);
             tvIngredient1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             tvIngredient1.setTextAppearance(mRootView.getContext(), R.style.TextAppearance_AppCompat_Medium);
             llIngredient.addView(tvIngredient1);
 
         }
 
-        //Create new textview for each measure in array
+        // Create new textview for each measure in array
         LinearLayout llMeasurement = (LinearLayout) mRootView.findViewById(R.id.ll_measurement);
         for (String measure : measureArray) {
             tvMeasure1 = new TextView(mRootView.getContext());
-            tvMeasure1.setText(measure); // <-- does it really compile without the + sign?
+            tvMeasure1.setText(measure);
             tvMeasure1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             tvMeasure1.setTextAppearance(mRootView.getContext(), R.style.TextAppearance_AppCompat_Medium);
             llMeasurement.addView(tvMeasure1);

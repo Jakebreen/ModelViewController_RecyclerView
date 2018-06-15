@@ -1,6 +1,7 @@
 package uk.co.jakebreen.modelviewcontroller_recyclerview.ui.search.controller;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ public class SearchFragment extends BaseFragment implements SearchView.SearchVie
     private static final String TAG = SearchFragment.class.getName();
     private SearchView mView;
     public static final String BUNDLE_RECYCLER_LAYOUT = "classname.recycler.layout";
+    public static final String BUNDLE_RECYCLER_DATASET = "classname.recycler.dataset";
 
     @Nullable
     @Override
@@ -31,7 +33,14 @@ public class SearchFragment extends BaseFragment implements SearchView.SearchVie
         // Instantiate view and set the listener to this fragment
         mView = new SearchViewImpl(inflater, container);
         mView.setListener(this);
-        mView.getCocktails();
+
+        if(savedInstanceState != null)
+        {
+            Parcelable savedRecyclerLayoutState = savedInstanceState.getParcelable(BUNDLE_RECYCLER_LAYOUT);
+            mView.getCocktails(savedRecyclerLayoutState);
+        } else {
+            mView.getCocktails(null);
+        }
 
         // Return the root view
         return mView.getRootView();
@@ -65,16 +74,10 @@ public class SearchFragment extends BaseFragment implements SearchView.SearchVie
     }
 
     @Override
-    public void onViewStateRestored(Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        //if (savedInstanceState != null) {
-        //    mView.setScrollPosition(savedInstanceState);
-        //}
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //outState.putParcelable(BUNDLE_RECYCLER_LAYOUT, mView.getScrollPosition());
+        // Get position of recyclerview before destroying fragment
+        outState.putParcelable(BUNDLE_RECYCLER_LAYOUT, mView.getScrollPosition());
     }
+
 }

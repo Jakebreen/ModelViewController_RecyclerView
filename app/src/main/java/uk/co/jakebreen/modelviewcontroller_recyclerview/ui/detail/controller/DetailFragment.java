@@ -33,30 +33,30 @@ public class DetailFragment extends BaseFragment {
         // Instantiate view and set the listener to this fragment
         mView = new DetailViewImpl(inflater, container);
 
-        Bundle args = getArguments();
-        if (args.containsKey(ARG_COCKTAIL)) {
-            cocktail = (Cocktail) args.getSerializable(ARG_COCKTAIL);
+        savedInstanceState = getArguments();
+        if (savedInstanceState.containsKey(ARG_COCKTAIL)) {
+            cocktail = (Cocktail) savedInstanceState.getSerializable(ARG_COCKTAIL);
             mView.setupInterface(cocktail, getIngredientArray(), getMeasureArray());
         }
 
         return mView.getRootView();
     }
 
-    //Create arraylist from ingredient variables
+    // Create arraylist from ingredient variables
     public ArrayList<String> getIngredientArray() {
 
         ArrayList<String> ingredientArray = new ArrayList<>();
         String fields = "";
         int i;
 
-        //Loop through cocktail methods adding response to array
+        // Loop through cocktail methods adding response to array
         for(i=1; i<=15; i++) {
 
             Method m = null;
             try {
                 m = cocktail.getClass().getMethod("getStrIngredient" + String.valueOf(i), new Class[]{});
                 fields = (String) m.invoke(cocktail);
-                //Remove whitespace from response
+                // Remove whitespace from response
                 fields = fields.trim();
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
@@ -72,26 +72,25 @@ public class DetailFragment extends BaseFragment {
                 break;
             }
         }
-        //Log.e(TAG, "ingredient array: " + ingredientArray);
 
         return ingredientArray;
     }
 
-    //Create arraylist from measure variables
+    // Create arraylist from measure variables
     public ArrayList<String> getMeasureArray() {
 
         ArrayList<String> measureArray = new ArrayList<>();
         String fields = null;
         int i;
 
-        //Loop through cocktail methods adding response to array
+        // Loop through cocktail methods adding response to array
         for(i=1; i<=15; i++) {
 
             Method m = null;
             try {
                 m = cocktail.getClass().getMethod("getStrMeasure" + String.valueOf(i), new Class[]{});
                 fields = (String) m.invoke(cocktail);
-                //Remove whitespace from response
+                // Remove whitespace from response
                 fields = fields.trim();
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
@@ -107,7 +106,6 @@ public class DetailFragment extends BaseFragment {
                 break;
             }
         }
-        //Log.e(TAG, "measure array: " + measureArray);
 
         return measureArray;
     }

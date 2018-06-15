@@ -1,9 +1,9 @@
 package uk.co.jakebreen.modelviewcontroller_recyclerview.ui.search.view;
 
-import android.os.Bundle;
 import android.os.Parcelable;
 
 import uk.co.jakebreen.modelviewcontroller_recyclerview.data.model.Cocktail;
+import uk.co.jakebreen.modelviewcontroller_recyclerview.data.model.Cocktails;
 import uk.co.jakebreen.modelviewcontroller_recyclerview.ui.common.view.RootView;
 
 /**
@@ -24,9 +24,9 @@ public interface SearchView extends RootView {
 
     void showToast(String message);
     void setListener(SearchViewListener listener);
-    void getCocktails();
+    void getCocktails(Parcelable p);
+    void populateRecyclerView(Cocktails cocktails);
     Parcelable getScrollPosition();
-    void setScrollPosition(Bundle bundle);
-
+    void setScrollPosition(Parcelable parcelable);
 
 }

@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.Frag
             replaceFragment(SearchFragment.class, false, null);
         }
 
+        // Instantiate API retrofit service
         mApiService = ApiUtils.getApiService();
     }
 
